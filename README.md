@@ -31,6 +31,11 @@ Copy `.env.sample` to `.env` and update variables as you want.
 $ docker compose up
 ```
 
+### Further tasks
+
+Setup grafana behind a reverse proxy:
+https://grafana.com/tutorials/run-grafana-behind-a-proxy/#configure-nginx
+
 ### Project structure
 
 ```shell
