@@ -12,6 +12,9 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     restart: unless-stopped
+    networks:
+      - prom-compose
+      - promnet
 
   grafana:
     image: grafana/grafana:${GRAFANA_VERSION}
@@ -26,6 +29,8 @@ services:
     depends_on:
       - prometheus
     restart: unless-stopped
+    networks:
+      - prom-compose
 
   node-exporter:
     image: prom/node-exporter:${NODE_EXPORTER_VERSION}
@@ -41,7 +46,16 @@ services:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
       - '--path.rootfs=/rootfs'
+    networks:
+      - prom-compose
 
 volumes:
   prometheus_data:
   grafana_data:
+
+networks:
+  prom-compose:
+    driver: bridge
+  promnet:
+    name: promnet
+    external: true
