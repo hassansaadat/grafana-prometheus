@@ -4,8 +4,8 @@ services:
   prometheus:
     image: prom/prometheus:${PROMETHEUS_VERSION}
     container_name: prometheus
-    ports:
-      - "${PROMETHEUS_PORT}:9090"
+    expose:
+      - 9090
     volumes:
       - ./prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
@@ -30,8 +30,8 @@ services:
   node-exporter:
     image: prom/node-exporter:${NODE_EXPORTER_VERSION}
     container_name: node-exporter
-    ports:
-      - "${NODE_EXPORTER_PORT}:9100"
+    expose:
+      - 9100
     restart: unless-stopped
     volumes:
       - /proc:/host/proc:ro
