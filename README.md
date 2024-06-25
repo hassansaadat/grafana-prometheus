@@ -2,7 +2,8 @@
 
 ![Prometheus Architecture](prometheus-architecture.png)
 
-This repository provides a Docker Compose setup to run Prometheus, Grafana, and Node Exporter. These services are used for monitoring and visualization of metrics.
+This repository provides a Docker Compose setup to run Prometheus, Grafana, Node Exporter and Grafana Telegram integration.
+These services are used for monitoring and visualization of metrics.
 
 
 ## Requirements
@@ -25,6 +26,13 @@ $ cd grafana-prometheus
 
 Copy `.env.sample` to `.env` and update variables as you want.
 
+### Step 3: Setup networking
+Create prometheus network to be able to gather metrics from other container environments.
+
+```shell
+$ docker network create --driver bridge promnet
+```
+
 ### Step 3: Start and enjoy!
 
 ```shell
@@ -43,11 +51,15 @@ grafana-prometheus
 ├── docker-compose.yml
 ├── grafana
 │ └── config
-│     └── provisioning
-│         ├── dashboards
-│         │ └── dashboards.yml
-│         └── datasources
-│             └── datasources.yml
+│     ├── provisioning
+│     │ ├── alerting
+│     │ │ └── alert_resources.yml
+│     │ ├── dashboards
+│     │ │ └── dashboards.yml
+│     │ └── datasources
+│     │     └── datasources.yml
+│     └── renderer
+│         └── config.json
 ├── prometheus
 │ └── config
 │     └── prometheus.yml
