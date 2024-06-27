@@ -1,27 +1,27 @@
 apiVersion: 1
 
 contactPoints:
-    - orgId: 1
-      name: Telegram Alert
-      receivers:
-        - uid: ddphjm4ropm81b
-          type: telegram
-          settings:
-            bottoken: ${GF_ALERTING_TELEGRAM_BOT_TOKEN}
-            chatid: |-
-               -
-               $GF_ALERTING_TELEGRAM_CHAT_ID
-            disable_notification: false
-            disable_web_page_preview: false
-            message: '{{ template "telegram.message" . }}'
-            parse_mode: HTML
-            protect_content: false
-          disableResolveMessage: false
+  - orgId: 1
+    name: Telegram Alert
+    receivers:
+      - uid: ddphjm4ropm81b
+        type: telegram
+        settings:
+          bottoken: ${GF_ALERTING_TELEGRAM_BOT_TOKEN}
+          # refer to this issue: https://github.com/grafana/grafana/issues/69950
+          chatid: |
+            $GF_ALERTING_TELEGRAM_CHAT_ID
+          disable_notification: false
+          disable_web_page_preview: false
+          message: '{{ template "telegram.message" . }}'
+          parse_mode: HTML
+          protect_content: false
+        disableResolveMessage: false
 
 templates:
-    - orgId: 1
-      name: telegram.message
-      template: |
+  - orgId: 1
+    name: telegram.message
+    template: |
         {{ define "__alerts_list" -}}
         {{ range . }}
         {{if ne (index .Labels "alertname") "" }}
@@ -47,9 +47,9 @@ templates:
         <i>Value:</i>
             {{ .ValueString }}
         
-        {{ if gt (len .SilenceURL) 0 }}<a href="{{ .SilenceURL }}">🔕 silence</a>  |  {{ end }}
-        {{- if gt (len .DashboardURL) 0 }}📁 <a href="{{ .DashboardURL }}">dashboard</a>  |  {{ end }}
-        {{- if gt (len .PanelURL) 0 }}📁 <a href="{{ .PanelURL }}">panel</a> {{- end -}}
+        {{ if gt (len .SilenceURL) 0 }}🔕 <a href="{{ .SilenceURL }}">Silence</a>  |  {{ end }}
+        {{- if gt (len .DashboardURL) 0 }}📁 <a href="{{ .DashboardURL }}">Dashboard</a>  |  {{ end }}
+        {{- if gt (len .PanelURL) 0 }}📁 <a href="{{ .PanelURL }}">Panel</a> {{- end -}}
         {{- end -}}
         {{- end -}}
         
